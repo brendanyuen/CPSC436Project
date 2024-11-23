@@ -36,6 +36,7 @@ def authorize():
     session['user'] = user
     return redirect(url_for('index'))
 
+
 @app.route('/logout')
 def logout():
     session.pop('user', None)
