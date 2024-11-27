@@ -1,0 +1,136 @@
+/* styles.css */
+
+/* General container styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Welcome message */
+.welcome-message {
+  text-align: center;
+  margin: 20px;
+  font-size: 18px;
+  color: #444;
+}
+
+/* Sign Out Button - Positioned at the top-right */
+.sign-out-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.sign-out-button:hover {
+  background-color: #e04343;
+}
+
+/* Product layout */
+.product-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin: 20px auto;
+  padding: 0 10px;
+}
+
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  padding: 16px;
+  text-align: center;
+  max-width: 200px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.product-card img {
+  max-width: 100%;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.product-card h3 {
+  font-size: 16px;
+  color: #333;
+  margin: 0 0 10px 0;
+}
+
+.product-card p {
+  font-size: 14px;
+  color: #666;
+}
+/* Add to Cart Button */
+.add-to-cart-button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.add-to-cart-button:hover {
+  background-color: #45a049;
+}
+
+/* Cart Section */
+.cart-section {
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cart-section h2 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.cart-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.remove-button {
+  padding: 4px 8px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.remove-button:hover {
+  background-color: #e04343;
+}

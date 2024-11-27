@@ -24,6 +24,7 @@ const input = {
       "USERNAME": username
     },
     "ClientId": clientId,
+    "Region": 'ca-central'
   };
 
 const command = new InitiateAuthCommand(input);
