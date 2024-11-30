@@ -10,7 +10,7 @@ const Cart = () => {
     <div>
       <h1>Your Cart</h1>
       {cart.items.length === 0 ? (
-        <p>Your cart is empty</p>
+        <p>hello</p>
       ) : (
         <div>
           {cart.items.map((item) => (
