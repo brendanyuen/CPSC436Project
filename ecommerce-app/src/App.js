@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
+import AddItem from './pages/AddItem';
 import { useEffect } from "react";
 
 import { useAuth } from "react-oidc-context";
@@ -51,6 +52,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Cart />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/addItem"
+              element={
+                <ProtectedRoute>
+                  <AddItem />
                 </ProtectedRoute>
               }
             />

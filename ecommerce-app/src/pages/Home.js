@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Cart from './Cart';
@@ -13,49 +14,59 @@ const products = [
 ];
 
 function Home() {
-    const auth = useAuth();
-    const [username, setUsername] = useState(null);
-  
-    useEffect(() => {
-      if (auth.isAuthenticated) {
-        setUsername(auth.user?.profile?.["cognito:username"]); // Access user email or other info
-      }
-    }, [auth.isAuthenticated, auth.user]);
+  const auth = useAuth();
+  const [username, setUsername] = useState(null);
 
-    const [cart, setCart] = useState([]);
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      setUsername(auth.user?.profile?.["cognito:username"]); // Access user email or other info
+    }
+  }, [auth.isAuthenticated, auth.user]);
 
-
-    const signOutRedirect = () => {
-      const clientId = "1kqpsrdup21vkh711qti1dtrj7";  // Your Cognito app client ID
-      const logoutUri = "http://localhost:3000";  // Redirect after logout
-      const cognitoDomain = "https://ca-central-111wzzqvpp.auth.ca-central-1.amazoncognito.com";
-      const logoutUrl = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
-  
-      // Redirect the user to Cognito logout endpoint
-      window.location.href = logoutUrl;
-      auth.removeUser();
-    };
-
-    const addToCart = (product) => {
-        setCart((prevCart) => [...prevCart, product]);
-      };
-    
-      const removeFromCart = (index) => {
-        setCart((prevCart) => prevCart.filter((_, i) => i !== index));
-      };
+  const [cart, setCart] = useState([]);
 
 
-    return (
-<div>
+  const signOutRedirect = () => {
+    const clientId = "1kqpsrdup21vkh711qti1dtrj7";  // Your Cognito app client ID
+    const logoutUri = "http://localhost:3000";  // Redirect after logout
+    const cognitoDomain = "https://ca-central-111wzzqvpp.auth.ca-central-1.amazoncognito.com";
+    const logoutUrl = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+
+    // Redirect the user to Cognito logout endpoint
+    window.location.href = logoutUrl;
+    auth.removeUser();
+  };
+
+  const addToCart = (product) => {
+    setCart((prevCart) => [...prevCart, product]);
+  };
+
+  const removeFromCart = (index) => {
+    setCart((prevCart) => prevCart.filter((_, i) => i !== index));
+  };
+  const navigate = useNavigate();
+
+  const handleAddItem = () => {
+    // Add the item logic here
+    navigate('/addItem'); // Redirect to AddItem page after adding item
+  };
+  const isAdmin = (auth.user?.profile?.["cognito:groups"] !== 0 && auth.user?.profile?.["cognito:groups"][0] === 'Admin')
+
+  return (
+    <div>
       {auth.isAuthenticated && (
-        <button onClick={signOutRedirect} className="sign-out-button">
-          Sign Out
-        </button>
+        <>
+          <button onClick={signOutRedirect} className="sign-out-button">
+            Sign Out
+          </button>
+        </>
       )}
-      <h1>Welcome to the Home Page!</h1>
       {auth.isAuthenticated ? (
         <>
+
+
           <p className="welcome-message">Welcome back, {username}</p>
+
           <div className="product-container">
             {products.map((product) => (
               <div className="product-card" key={product.id}>
@@ -86,24 +97,31 @@ function Home() {
               </ul>
             )}
           </div>
+
+
+            {isAdmin ? (
+              <button onClick={() => handleAddItem()} className="admin-button">
+                Add Item
+              </button>
+            ) : (<></>)}
         </>
       ) : (
-        <button onClick={() => auth.signinRedirect()}>Sign In</button>
+        <button onClick={() => auth.signinRedirect()}>Sign Out</button>
       )}
     </div>
   );
 
-      
-    // return (
-    //     <div>
-    //       <h1>Welcome to the Store</h1>
-    //       <div style={{ display: 'flex', gap: '16px' }}>
-    //         {products.map((product) => (
-    //           <ProductCard key={product.id} product={product} />
-    //         ))}
-    //       </div>
-    //     </div>
-    //   );
+
+  // return (
+  //     <div>
+  //       <h1>Welcome to the Store</h1>
+  //       <div style={{ display: 'flex', gap: '16px' }}>
+  //         {products.map((product) => (
+  //           <ProductCard key={product.id} product={product} />
+  //         ))}
+  //       </div>
+  //     </div>
+  //   );
 }
 
 
