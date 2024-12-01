@@ -9,6 +9,8 @@ import { useAuth } from "react-oidc-context";
 
 function App() {
   const auth = useAuth();
+
+  
   useEffect(() => {
     if (auth.isAuthenticated) {
       // Store tokens in localStorage when user is authenticated
