@@ -1,30 +1,30 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { removeFromCart } from '../redux/cartSlice';
+import React from "react";
+import './styles.css';
 
-const Cart = () => {
-  const cart = useSelector((state) => state.cart);
-  const dispatch = useDispatch();
+function Cart({ cart, setCart }) {
+  const removeFromCart = (index) => {
+    setCart((prevCart) => prevCart.filter((_, i) => i !== index));
+  };
 
   return (
-    <div>
-      <h1>Your Cart</h1>
-      {cart.items.length === 0 ? (
-        <p>hello</p>
+    <div className="cart-section">
+      <h2>Your Cart</h2>
+      {cart.length === 0 ? (
+        <p>Your cart is empty.</p>
       ) : (
-        <div>
-          {cart.items.map((item) => (
-            <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>{item.name}</span>
-              <span>${item.price.toFixed(2)}</span>
-              <button onClick={() => dispatch(removeFromCart(item.id))}>Remove</button>
-            </div>
+        <ul>
+          {cart.map((item, index) => (
+            <li key={index} className="cart-item">
+              {item.title} - {item.price ? `$${item.price}` : "Price not available"}
+              <button onClick={() => removeFromCart(index)} className="remove-button">
+                Remove
+              </button>
+            </li>
           ))}
-          <h2>Total: ${cart.total.toFixed(2)}</h2>
-        </div>
+        </ul>
       )}
     </div>
   );
-};
+}
 
 export default Cart;
