@@ -399,7 +399,7 @@ function Home() {
     auth.removeUser();
   };
 
-  const isAdmin = auth.user?.profile?.["cognito:groups"]?.includes("Admin");
+  const isAdmin = (auth.user?.profile?.["cognito:groups"] && auth.user?.profile?.["cognito:groups"][0] === 'Admin');
 
   const renderStars = (product) => {
     const currentRating = ratings[product.product_asin] || 0;
