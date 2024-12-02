@@ -226,8 +226,6 @@ function Home() {
             accessToken: auth.user?.id_token // Pass the auth token in headers
           }
         });
-
-        // Assuming the API returns the products in the expected format
         setProducts(response.data.products);
       } catch (error) {
         console.error("Error fetching products:", error);
