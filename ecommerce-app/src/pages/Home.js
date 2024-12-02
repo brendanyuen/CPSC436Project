@@ -1,120 +1,267 @@
+// import React, { useEffect, useState } from "react";
+// import { useNavigate } from 'react-router-dom';
+// import ProductCard from '../components/ProductCard';
+// import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+// import Cart from './Cart';
+// import { useAuth } from "react-oidc-context";
+// import './styles.css'
+
+
+// // const products = [
+// //   { id: 1, name: 'Product 1', price: 19.99, image: 'https://via.placeholder.com/150' },
+// //   { id: 2, name: 'Product 2', price: 29.99, image: 'https://via.placeholder.com/150' },
+// //   { id: 3, name: 'Product 3', price: 39.99, image: 'https://via.placeholder.com/150' },
+// // ];
+
+
+
+
+// function Home() {
+//   const auth = useAuth();
+//   const [products, setProducts] = useState([]);
+//   const [username, setUsername] = useState(null);
+
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [count, setCount] = useState(5); // Number of products to fetch
+
+// useEffect(() => {
+//   const fetchProducts = async () => {
+//     try {
+//       setLoading(true);
+//       setError(null); // Reset error state
+
+//       const accessToken = auth.user?.id_token;
+//       const apiUrl = `https://zlq4xjudc9.execute-api.ca-central-1.amazonaws.com/products?page=1&limit=5`;
+
+//       const response = await fetch(apiUrl, {
+//         method: 'GET',
+//         headers: {
+//           'accessToken': accessToken, // Pass the access token in the header
+//           'Content-Type': 'application/json', // Add appropriate content type
+//         },
+//       });
+
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! status: ${response.status}`);
+//       }
+
+//       const data = await response.json();
+//       console.log(data)
+//       setProducts(data); // Update the products state
+//     } catch (err) {
+//       setError("Failed to fetch products.");
+//       console.error("Fetch error:", err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   if (auth.isAuthenticated) {
+//     fetchProducts();
+//   }
+// }, [auth, count]); // Refetch products when 'count' changes
+
+
+//   useEffect(() => {
+//     if (auth.isAuthenticated) {
+//       setUsername(auth.user?.profile?.["cognito:username"]); // Access user email or other info
+//     }
+//   }, [auth.isAuthenticated, auth.user]);
+
+//   const [cart, setCart] = useState([]);
+
+
+//   const signOutRedirect = () => {
+//     const clientId = "1kqpsrdup21vkh711qti1dtrj7";  // Your Cognito app client ID
+//     const logoutUri = "http://localhost:3000";  // Redirect after logout
+//     const cognitoDomain = "https://ca-central-111wzzqvpp.auth.ca-central-1.amazoncognito.com";
+//     const logoutUrl = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+
+//     // Redirect the user to Cognito logout endpoint
+//     window.location.href = logoutUrl;
+//     auth.removeUser();
+//   };
+
+//   const addToCart = (product) => {
+//     setCart((prevCart) => [...prevCart, product]);
+//   };
+
+//   const removeFromCart = (index) => {
+//     setCart((prevCart) => prevCart.filter((_, i) => i !== index));
+//   };
+//   const navigate = useNavigate();
+
+//   const handleAddItem = () => {
+//     // Add the item logic here
+//     navigate('/addItem'); // Redirect to AddItem page after adding item
+//   };
+
+//   console.log(auth);
+//   const isAdmin = (auth.user?.profile?.["cognito:groups"] !== 0 && auth.user?.profile?.["cognito:groups"][0] === 'Admin')
+//   return (
+//     <div>
+//       {auth.isAuthenticated && (
+//         <>
+//           <button onClick={signOutRedirect} className="sign-out-button">
+//             Sign Out
+//           </button>
+//         </>
+//       )}
+//       {auth.isAuthenticated ? (
+//         <>
+
+
+//           <p className="welcome-message">Welcome back, {username}</p>
+
+//           <div className="product-container">
+//             {products.map((product) => (
+//               <div className="product-card" key={product.id}>
+//                 <img src={product.image} alt={product.name} />
+//                 <h3>{product.name}</h3>
+//                 <p>${product.price}</p>
+//                 <button onClick={() => addToCart(product)} className="add-to-cart-button">
+//                   Add to Cart
+//                 </button>
+//               </div>
+//             ))}
+//           </div>
+
+//           <div className="cart-section">
+//             <h2>Your Cart</h2>
+//             {cart.length === 0 ? (
+//               <p>Your cart is empty.</p>
+//             ) : (
+//               <ul>
+//                 {cart.map((item, index) => (
+//                   <li key={index} className="cart-item">
+//                     {item.name} - ${item.price}
+//                     <button onClick={() => removeFromCart(index)} className="remove-button">
+//                       Remove
+//                     </button>
+//                   </li>
+//                 ))}
+//               </ul>
+//             )}
+//           </div>
+
+
+//             {isAdmin ? (
+//               <button onClick={() => handleAddItem()} className="admin-button">
+//                 Add Item
+//               </button>
+//             ) : (<></>)}
+//         </>
+//       ) : (
+//         <button onClick={() => auth.signinRedirect()}>Sign Out</button>
+//       )}
+//     </div>
+//   );
+
+
+//   // return (
+//   //     <div>
+//   //       <h1>Welcome to the Store</h1>
+//   //       <div style={{ display: 'flex', gap: '16px' }}>
+//   //         {products.map((product) => (
+//   //           <ProductCard key={product.id} product={product} />
+//   //         ))}
+//   //       </div>
+//   //     </div>
+//   //   );
+// }
+
+
+// // const Home = () => {
+// //   return (
+// //     <div>
+// //       <h1>Welcome to the Store</h1>
+// //       <div style={{ display: 'flex', gap: '16px' }}>
+// //         {products.map((product) => (
+// //           <ProductCard key={product.id} product={product} />
+// //         ))}
+// //       </div>
+// //     </div>
+// //   );
+// // };
+
+// export default Home;
+
+
+
+
+
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import ProductCard from '../components/ProductCard';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import Cart from './Cart';
 import { useAuth } from "react-oidc-context";
-import "./styles.css";
+import './styles.css';
 
 function Home() {
   const auth = useAuth();
   const [products, setProducts] = useState([]);
   const [username, setUsername] = useState(null);
   const [cart, setCart] = useState([]);
-  const [ratings, setRatings] = useState({}); // State to store ratings
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const itemsPerPage = 50;
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (auth.isAuthenticated) {
-      setUsername(auth.user?.profile?.["cognito:username"]);
+      setUsername(auth.user?.profile?.["cognito:username"]); // Access user email or other info
     }
   }, [auth.isAuthenticated, auth.user]);
 
-  const fetchProducts = async (page) => {
-    try {
-      const response = await axios.get("https://zlq4xjudc9.execute-api.ca-central-1.amazonaws.com/products", {
-        params: {
-          page,
-          limit: itemsPerPage,
-        },
-        headers: {
-          accessToken: auth.user?.id_token,
-        },
-      });
-      setProducts(response.data.products);
-      setTotalPages(Math.ceil(3000 / itemsPerPage));
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
-  };
-
+  // Fetch products with pagination parameters (page and limit)
   useEffect(() => {
-    if (auth.isAuthenticated) {
-      fetchProducts(currentPage);
-    }
-  }, [auth.isAuthenticated, currentPage]);
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("https://zlq4xjudc9.execute-api.ca-central-1.amazonaws.com/products", {
+          params: {
+            page: 1, // You can modify this to make it dynamic based on user input
+            limit: 100  // Again, you can make this dynamic as well
+          },
+          headers: {
+            accessToken: auth.user?.id_token // Pass the auth token in headers
+          }
+        });
+        setProducts(response.data.products);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
 
-  const handlePageChange = (direction) => {
-    if (direction === "prev" && currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
-    } else if (direction === "next" && currentPage < totalPages) {
-      setCurrentPage((prev) => prev + 1);
-    }
+    fetchProducts();
+  }, [auth.isAuthenticated]);
+
+  const signOutRedirect = () => {
+    const clientId = "1kqpsrdup21vkh711qti1dtrj7";  // Your Cognito app client ID
+    const logoutUri = "http://localhost:3000";  // Redirect after logout
+    const cognitoDomain = "https://ca-central-111wzzqvpp.auth.ca-central-1.amazoncognito.com";
+    const logoutUrl = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+
+    // Redirect the user to Cognito logout endpoint
+    window.location.href = logoutUrl;
+    auth.removeUser();
   };
 
   const addToCart = (product) => {
     setCart((prevCart) => [...prevCart, product]);
   };
 
-  const handleRatingChange = async (product, rating) => {
-    // Check if the product has already been rated
-    if (ratings[product.product_asin] === undefined) {
-      setRatings((prevRatings) => ({
-        ...prevRatings,
-        [product.product_asin]: rating,
-      }));
-    }
-
-
-
-    const data = {
-      productId: product.product_asin,
-      rating: rating,
-    };
-
-    // Make the POST request with fetch
-    const response = await fetch("https://zlq4xjudc9.execute-api.ca-central-1.amazonaws.com/review?" + new URLSearchParams({
-      productId: product.product_asin,
-      rating: rating,
-  }).toString(), {
-      method: "POST",  // HTTP method
-      headers: {
-        "accessToken": auth.user?.id_token, // Pass the token in Authorization header
-      }
-    });
+  const removeFromCart = (index) => {
+    setCart((prevCart) => prevCart.filter((_, i) => i !== index));
   };
 
+  const navigate = useNavigate();
 
-  
-
-  const signOutRedirect = () => {
-    const clientId = "1kqpsrdup21vkh711qti1dtrj7";
-    const logoutUri = "http://localhost:3000";
-    const cognitoDomain = "https://ca-central-111wzzqvpp.auth.ca-central-1.amazoncognito.com";
-    const logoutUrl = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
-    window.location.href = logoutUrl;
-    auth.removeUser();
+  const handleAddItem = () => {
+    // Add the item logic here
+    navigate('/addItem'); // Redirect to AddItem page after adding item
   };
 
   const isAdmin = (auth.user?.profile?.["cognito:groups"] && auth.user?.profile?.["cognito:groups"][0] === 'Admin');
-
-  const renderStars = (product) => {
-    const currentRating = ratings[product.product_asin] || 0;
-    return (
-      <div className="star-rating">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <span
-            key={star}
-            className={`star ${star <= currentRating ? "filled" : ""}`}
-            onClick={() => handleRatingChange(product, star)}
-          >
-            ★
-          </span>
-        ))}
-      </div>
-    );
-  };
 
   return (
     <div>
@@ -150,28 +297,8 @@ function Home() {
             ))}
           </div>
 
-          <div className="pagination-controls">
-            <button
-              onClick={() => handlePageChange("prev")}
-              disabled={currentPage === 1}
-              className="pagination-button"
-            >
-              Previous
-            </button>
-            <span>
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              onClick={() => handlePageChange("next")}
-              disabled={currentPage === totalPages}
-              className="pagination-button"
-            >
-              Next
-            </button>
-          </div>
-
           <div className="cart-section">
-            <h2>Your Purchases</h2>
+            <h2>Your Cart</h2>
             {cart.length === 0 ? (
               <p>Your cart is empty.</p>
             ) : (
@@ -179,7 +306,9 @@ function Home() {
                 {cart.map((item, index) => (
                   <li key={index} className="cart-item">
                     {item.title} - {item.price ? `$${item.price}` : "Price not available"}
-                    {renderStars(item)}
+                    <button onClick={() => removeFromCart(index)} className="remove-button">
+                      Remove
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -187,7 +316,7 @@ function Home() {
           </div>
 
           {isAdmin && (
-            <button onClick={() => navigate("/addItem")} className="admin-button">
+            <button onClick={() => handleAddItem()} className="admin-button">
               Add Item
             </button>
           )}
