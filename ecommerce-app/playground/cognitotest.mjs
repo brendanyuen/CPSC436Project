@@ -13,14 +13,14 @@ function computeSecretHash(clientId, clientSecret, username) {
       .digest('base64');                 // Encode in base64
 }
 
-const clientId = "4al0mer01dijpnqmddqr7132hc";
+const clientId = "1kqpsrdup21vkh711qti1dtrj7";
 const clientSecret = "1bbios9m5j58ipfhpica5m7vq14r726ttj2ai5sjg00ccd5v49vg";
-const username = "yuhei";
+const username = "Brendan";
 
 const input = {
     "AuthFlow": "USER_PASSWORD_AUTH",
     "AuthParameters": {
-      "PASSWORD": "123456",
+      "PASSWORD": "??????",
       "USERNAME": username
     },
     "ClientId": clientId,

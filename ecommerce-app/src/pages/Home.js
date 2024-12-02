@@ -261,7 +261,7 @@ function Home() {
     navigate('/addItem'); // Redirect to AddItem page after adding item
   };
 
-  const isAdmin = (auth.user?.profile?.["cognito:groups"] !== 0 && auth.user?.profile?.["cognito:groups"][0] === 'Admin');
+  const isAdmin = (auth.user?.profile?.["cognito:groups"] && auth.user?.profile?.["cognito:groups"][0] === 'Admin');
 
   return (
     <div>
