@@ -98,26 +98,6 @@ function Home() {
   };
 
   const isAdmin = (auth.user?.profile?.["cognito:groups"] && auth.user?.profile?.["cognito:groups"][0] === 'Admin');
-<<<<<<< HEAD
-
-  const renderStars = (product) => {
-    const currentRating = ratings[product.product_asin] || 0;
-    return (
-      <div className="star-rating">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <span
-            key={star}
-            className={`star ${star <= currentRating ? "filled" : ""}`}
-            onClick={() => handleRatingChange(product, star)}
-          >
-            ★
-          </span>
-        ))}
-      </div>
-    );
-  };
-=======
->>>>>>> main
 
   return (
     <div>
