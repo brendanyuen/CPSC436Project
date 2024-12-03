@@ -9,7 +9,7 @@ import App from "./App";
 const cognitoAuthConfig = {
     authority: "https://cognito-idp.ca-central-1.amazonaws.com/ca-central-1_11wzZqvpp",
     client_id: "1kqpsrdup21vkh711qti1dtrj7",
-    redirect_uri: "http://localhost:3000/home",
+    redirect_uri: process.env.REACT_APP_LOGOUT_URI + "/home",
     response_type: "code",
     scope: "email openid phone",
     automaticSilentRenew: true,
