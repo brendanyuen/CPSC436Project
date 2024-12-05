@@ -40,11 +40,12 @@ export const handler = async (event) => {
     console.log(event.requestContext.authorizer.lambda); 
     const page = event.queryStringParameters?.page || "1";
     const limit = event.queryStringParameters?.limit || "10";
-    const offset = (parseInt(page) - 1) * parseInt(limit);;
+    const offset = (parseInt(page) - 1) * parseInt(limit);
 
     const query = `SELECT * FROM Products LIMIT ? OFFSET ?`;
 
-    const [products] = await connection.execute(query, [limit, toString(offset)]);
+    const strOffset = offset.toString();
+    const [products] = await connection.execute(query, [limit, strOffset]);
 
     return {
       statusCode: 200,

@@ -165,10 +165,11 @@ function Home() {
         <>
           <p className="welcome-message">Welcome back, {username}</p>
 
-          <div className="product-container">
-            {recommendations.length === 0 ? <></>: <div><h2>We Recommend You will like: </h2>
+          {recommendations.length === 0 ? <></>: <div><h2>We Recommend You will like: </h2>
             
             <h2></h2></div>}
+
+          <div className="product-container">
 
 
             {recommendations.map((recommendation) => (
