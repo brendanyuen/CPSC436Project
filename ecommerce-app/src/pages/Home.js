@@ -86,6 +86,8 @@ function Home() {
 
 
 
+
+
     const data = {
       productId: product.product_asin,
       rating: rating,
@@ -101,6 +103,19 @@ function Home() {
         "accessToken": auth.user?.id_token, // Pass the token in Authorization header
       }
     });
+  };
+
+  const callRecommendation = async () => {
+    try {
+      const response = await fetch("https://zlq4xjudc9.execute-api.ca-central-1.amazonaws.com/recommendation?", {
+        method: "POST",  // HTTP method
+        headers: {
+          "accessToken": auth.user?.id_token, // Pass the token in Authorization header
+        }
+      });
+    } catch (error) {
+      console.error("Error calling recommendations:", error);
+    }
   };
 
 
@@ -237,9 +252,14 @@ function Home() {
           </div>
 
           {isAdmin && (
+            <div>
             <button onClick={() => navigate("/addItem")} className="admin-button">
               Add Item
             </button>
+            <button onClick={() => callRecommendation()} className="admin-button-recommend">
+              Call Recommendation
+            </button>
+            </div>
           )}
         </>
       ) : (
