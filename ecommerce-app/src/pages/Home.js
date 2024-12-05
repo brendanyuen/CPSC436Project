@@ -7,6 +7,7 @@ import "./styles.css";
 function Home() {
   const auth = useAuth();
   const [products, setProducts] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
   const [username, setUsername] = useState(null);
   const [cart, setCart] = useState([]);
   const [ratings, setRatings] = useState({}); // State to store ratings
@@ -14,6 +15,22 @@ function Home() {
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 50;
   const navigate = useNavigate();
+
+  const fetchRecommendations = async () => {
+    try {
+      const response = await axios.get("https://zlq4xjudc9.execute-api.ca-central-1.amazonaws.com/recommendation", {
+        params: {
+          userId: auth.user?.profile?.sub,
+        },
+        headers: {
+          accessToken: auth.user?.id_token,
+        },
+      });
+      setRecommendations(response.data.recommendations);
+    } catch (error) {
+      console.error("Error fetching recommendations:", error);
+    }
+  };
 
   useEffect(() => {
     if (auth.isAuthenticated) {
@@ -42,6 +59,7 @@ function Home() {
   useEffect(() => {
     if (auth.isAuthenticated) {
       fetchProducts(currentPage);
+      fetchRecommendations();
     }
   }, [auth.isAuthenticated, currentPage]);
 
@@ -116,13 +134,13 @@ function Home() {
     );
   };
 
-  
-
 
   return (
+    
     <div>
       {auth.isAuthenticated && (
         <>
+        
           <button onClick={signOutRedirect} className="sign-out-button">
             Sign Out
           </button>
@@ -131,6 +149,35 @@ function Home() {
       {auth.isAuthenticated ? (
         <>
           <p className="welcome-message">Welcome back, {username}</p>
+
+          <div className="product-container">
+            {recommendations.length === 0 ? <></>: <div><h2>We Recommend You will like: </h2>
+            
+            <h2></h2></div>}
+
+
+            {recommendations.map((recommendation) => (
+              
+              <div className="product-card" key={recommendation.product_asin}>
+                <img src={recommendation.image} alt={recommendation.title} />
+                <h3>{recommendation.title}</h3>
+                <p>
+                  {recommendation.description
+                    ? recommendation.description.length > 100
+                      ? `${recommendation.description.substring(0, 100)}...`
+                      : recommendation.description
+                    : "No description available"}
+                </p>
+                <p>{recommendation.price ? `$${recommendation.price}` : "Price not available"}</p>
+                <p>Rating: {recommendation.average_rating}</p>
+                <button onClick={() => addToCart(recommendation)} className="add-to-cart-button">
+                  Buy Now
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <h2>Our Products:</h2>
 
           <div className="product-container">
             {products.map((product) => (
